@@ -45,7 +45,7 @@ public class VentanaPrincipal extends JFrame{
 		botonesLaterales = new ArrayList<JButton>();
 		
 		//Panel central
-		pCentral = new JPanel();
+		pCentral = new PanelInventario();
 		getContentPane().add(pCentral, BorderLayout.CENTER);
 		
 		//Panel oeste
@@ -53,11 +53,19 @@ public class VentanaPrincipal extends JFrame{
 		
 		btnProductos = new JButton("PRODUCTOS");
 		btnProductos.addActionListener(e -> {
+			getContentPane().remove(pCentral);
 			pCentral = new PanelProductos();
+			getContentPane().add(pCentral, BorderLayout.CENTER);
+			pCentral.revalidate();
+			pCentral.repaint();
 		});
 		btnInventario = new JButton("INVENTARIO");
 		btnInventario.addActionListener(e -> {
+			getContentPane().remove(pCentral);
 			pCentral = new PanelInventario();
+			getContentPane().add(pCentral, BorderLayout.CENTER);
+			pCentral.revalidate();
+			pCentral.repaint();
 		});
 		JButton btnAniadir = new JButton("AÑADIR CUENTA");
 		btnAniadir.addActionListener(e -> {
@@ -65,7 +73,11 @@ public class VentanaPrincipal extends JFrame{
 			cuentas.put(c.getId(), c);
 			JButton btnCuenta = new JButton(String.format("Cuenta %d", c.getId()));
 			btnCuenta.addActionListener(a -> {
+				getContentPane().remove(pCentral);
 				pCentral = new PanelCuenta(c);
+				getContentPane().add(pCentral, BorderLayout.CENTER);
+				pCentral.revalidate();
+				pCentral.repaint();
 			});
 			botonesLaterales.add(btnCuenta);
 			cargarBotones(botonesLaterales);
