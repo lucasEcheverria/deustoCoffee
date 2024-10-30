@@ -59,6 +59,17 @@ public class VentanaPrincipal extends JFrame{
 		btnInventario.addActionListener(e -> {
 			pCentral = new PanelInventario();
 		});
+		JButton btnAniadir = new JButton("AÑADIR CUENTA");
+		btnAniadir.addActionListener(e -> {
+			Cuenta c = new Cuenta(cuentas.size());
+			cuentas.put(c.getId(), c);
+			JButton btnCuenta = new JButton(String.format("Cuenta %d", c.getId()));
+			btnCuenta.addActionListener(a -> {
+				pCentral = new PanelCuenta(c);
+			});
+			botonesLaterales.add(btnCuenta);
+			cargarBotones(botonesLaterales);
+		});
 		/*
 		 * Los action listener de los botones hacen que al accionarlos se cambie el panel central por un nuevo panel,
 		 * que este será del tipo nuevo que queremos.
@@ -66,6 +77,7 @@ public class VentanaPrincipal extends JFrame{
 		
 		botonesLaterales.add(btnProductos);
 		botonesLaterales.add(btnInventario);
+		botonesLaterales.add(btnAniadir);
 		cargarBotones(botonesLaterales);
 		
 		scrollBotones = new JScrollPane(pBotones);
@@ -79,17 +91,11 @@ public class VentanaPrincipal extends JFrame{
 		/**
 		 * Este metodo coge los el todos los botones que hay y los mete todos en el panel de botones al lateral izquierdo de la pantalla.
 		 */
-		pBotones.setLayout(new GridLayout(botonesLaterales.size()+1, 1));
-		for(int i=0; i<botonesLaterales.size(); i++) {
-			pBotones.add(botonesLaterales.get(i));
-		}
-		JButton btnAniadir = new JButton("AÑADIR CUENTA");
-		btnAniadir.addActionListener(e -> {
-			Cuenta c = new Cuenta(cuentas.size());
-			cuentas.put(c.getId(), c);
-		});
-		pBotones.add(btnAniadir);
-		repaint();
+		pBotones.removeAll();
+		pBotones.setLayout(new GridLayout(botonesLaterales.size(), 1));
+		botonesLaterales.forEach(b -> {pBotones.add(b);});
+		pBotones.revalidate();
+		pBotones.repaint();
 	}
 	
 	public static void main(String[] args) {
