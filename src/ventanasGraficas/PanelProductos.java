@@ -1,10 +1,10 @@
 package ventanasGraficas;
 import javax.swing.JPanel;
 
-public class VentanaProductos extends JPanel  {
+public class PanelProductos extends JPanel  {
 	private static final long serialVersionUID = 1L;
 	
-	public VentanaProductos() {
+	public PanelProductos() {
 		
 	}
 }
