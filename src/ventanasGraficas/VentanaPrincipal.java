@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import deustoCoffee.Cuenta;
+import deustoCoffee.Producto;
 
 public class VentanaPrincipal extends JFrame{
 	/**
@@ -33,6 +34,9 @@ public class VentanaPrincipal extends JFrame{
 	
 	private HashMap<Integer, Cuenta> cuentas;
 	
+	protected ArrayList<Producto> productos;
+	protected ArrayList<String> tipos;
+	
 	public VentanaPrincipal(){
 		super();
 		setTitle("DEUSTOCOFFEE");
@@ -45,7 +49,7 @@ public class VentanaPrincipal extends JFrame{
 		botonesLaterales = new ArrayList<JButton>();
 		
 		//Panel central
-		pCentral = new PanelInventario();
+		pCentral = new PanelInventario(this);
 		getContentPane().add(pCentral, BorderLayout.CENTER);
 		
 		//Panel oeste
@@ -62,7 +66,7 @@ public class VentanaPrincipal extends JFrame{
 		btnInventario = new JButton("INVENTARIO");
 		btnInventario.addActionListener(e -> {
 			getContentPane().remove(pCentral);
-			pCentral = new PanelInventario();
+			pCentral = new PanelInventario(this);
 			getContentPane().add(pCentral, BorderLayout.CENTER);
 			pCentral.revalidate();
 			pCentral.repaint();
