@@ -1,20 +1,34 @@
 package ventanasGraficas;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.EventObject;
 
+import javax.swing.AbstractCellEditor;
+import javax.swing.CellEditor;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.CellEditorListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -35,6 +49,8 @@ public class PanelInventario extends JPanel {
 	private JButton btnAniadir, btnBorrar, btnDetalles;
 	private JTable tabla;
 	private ModeloTabla modelo;
+	private RenderTabla render;
+	private SpinnerEditor editor;
 	private DefaultMutableTreeNode nodo;
 	private JTree jTree;
 	private DefaultTreeModel treeModel;
@@ -47,6 +63,12 @@ public class PanelInventario extends JPanel {
 		//Panel central
 		modelo = new ModeloTabla(ventana.productos);
 		tabla = new JTable(modelo);
+		tabla.setRowHeight(25);
+		tabla.getTableHeader().setReorderingAllowed(false);
+		render = new RenderTabla();
+		tabla.setDefaultRenderer(Object.class, render);
+		editor  = new SpinnerEditor();
+		tabla.getColumn("TOTAL").setCellEditor(editor);
 		
 		pCentral = new JScrollPane(tabla);
 		this.add(pCentral, BorderLayout.CENTER);
@@ -97,17 +119,33 @@ public class PanelInventario extends JPanel {
 		pSur.add(btnBorrar);
 		pSur.add(btnDetalles);
 		
+		btnAniadir.addActionListener(e -> {
+			
+		});
+		
+		btnBorrar.addActionListener(e -> {
+			
+		});
+		
+		btnDetalles.addActionListener(e -> {
+			
+		});
+		
 		this.add(pSur,BorderLayout.SOUTH);
 		
 	}
 	
-	public class ModeloTabla extends AbstractTableModel{
+	private class ModeloTabla extends AbstractTableModel{
 		private ArrayList<Producto> productos;
 		private String[] header = {"NOMBRE", "PRECIO/UNIDAD", "TOTAL"};
 		
 		public ModeloTabla(ArrayList<Producto> productos) {
 			super();
 			this.productos = productos;
+		}
+		
+		@Override
+		public void setValueAt(Object value, int row, int col) {
 		}
 
 		@Override
@@ -143,7 +181,50 @@ public class PanelInventario extends JPanel {
 			default: return null;
 			}
 		}
+	}
+	
+	private class RenderTabla implements TableCellRenderer{
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			JPanel panel = new JPanel();
+			JLabel lbl = new JLabel(value.toString());
+			
+			if((Integer)table.getModel().getValueAt(row, 2) <= 0) {
+				panel.setBackground(Color.red);;
+			}
+			
+			lbl.setHorizontalAlignment(SwingConstants.CENTER);
+			lbl.setVerticalAlignment(SwingConstants.CENTER);
+			panel.add(lbl);
+			return panel;
+		}
 		
+	}
+	
+	private class SpinnerEditor extends AbstractCellEditor implements TableCellEditor {
+	    private final JSpinner spinner;
+
+	    public SpinnerEditor() {
+	        spinner = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1)); // Configuración del spinner
+	    }
+
+	    @Override
+	    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	        spinner.setValue(value);
+	        return spinner;
+	    }
+
+	    @Override
+	    public Object getCellEditorValue() {
+	        return spinner.getValue();
+	    }
+
+	    @Override
+	    public boolean isCellEditable(EventObject e) {
+	        return true;
+	    }
 	}
 	
 	private void filtrarModelo(String filtro) {
