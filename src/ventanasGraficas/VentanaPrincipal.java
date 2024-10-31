@@ -47,6 +47,11 @@ public class VentanaPrincipal extends JFrame{
 		//Inicialización de parametros
 		cuentas = new HashMap<Integer, Cuenta>();
 		botonesLaterales = new ArrayList<JButton>();
+		tipos = new ArrayList<String>();
+		tipos.add("CERVEZA");
+		productos = new ArrayList<Producto>();
+		Producto p = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 100);
+		productos.add(p);
 		
 		//Panel central
 		pCentral = new PanelInventario(this);

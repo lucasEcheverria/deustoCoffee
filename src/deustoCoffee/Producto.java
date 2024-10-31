@@ -8,13 +8,14 @@ public class Producto {
 	protected int idProducto, cantidad;
 	
 	// Constructor con argumentos
-	public Producto(String nombre, String tipo, String descripcion, double precio, int idProducto) {
+	public Producto(String nombre, String tipo, String descripcion, double precio, int idProducto, int cantidad) {
 		super();
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.idProducto = idProducto;
+		this.cantidad = cantidad;
 	}
 	
 	// Constructor sin argumentos
