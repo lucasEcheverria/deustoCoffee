@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Producto {
 	protected String nombre, tipo, descripcion;
 	protected double precio;
-	protected int idProducto;
+	protected int idProducto, cantidad;
 	
 	// Constructor con argumentos
 	public Producto(String nombre, String tipo, String descripcion, double precio, int idProducto) {
@@ -76,6 +76,14 @@ public class Producto {
 
 	public void setIdProducto(int idProducto) {
 		this.idProducto = idProducto;
+	}
+
+	public int getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	@Override
