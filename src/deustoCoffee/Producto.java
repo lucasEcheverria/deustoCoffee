@@ -3,14 +3,12 @@ package deustoCoffee;
 import java.util.Objects;
 
 public class Producto {
-	protected String nombre;
-	protected TipoProducto tipo;
-	protected String descripcion;
+	protected String nombre, tipo, descripcion;
 	protected double precio;
 	protected int idProducto;
 	
 	// Constructor con argumentos
-	public Producto(String nombre, TipoProducto tipo, String descripcion, double precio, int idProducto) {
+	public Producto(String nombre, String tipo, String descripcion, double precio, int idProducto) {
 		super();
 		this.nombre = nombre;
 		this.tipo = tipo;
@@ -48,11 +46,11 @@ public class Producto {
 		this.nombre = nombre;
 	}
 
-	public TipoProducto getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(TipoProducto tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 
