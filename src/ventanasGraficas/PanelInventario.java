@@ -9,12 +9,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.HashMap;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.CellEditor;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -22,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
@@ -120,15 +125,41 @@ public class PanelInventario extends JPanel {
 		pSur.add(btnDetalles);
 		
 		btnAniadir.addActionListener(e -> {
-			
+			JLabel lblName = new JLabel("Nombre: ");
+			JLabel lblDescripcion = new JLabel("Descripción: ");
+			JLabel lblTipo = new JLabel("Tipo");
+			JTextField txtName = new JTextField(20);
+			JTextArea txtDescripcion = new JTextArea();
+			JLabel lblId = new JLabel("ID: ");
+			JTextField txtId = new JTextField();
+			String[] suport = new String[ventana.tipos.size()];
+			suport = ventana.tipos.toArray(suport);
+			JComboBox<String> comboBox = new JComboBox<>(suport);
+			JComponent[] components = {lblName, txtName,lblId, txtId ,lblDescripcion, txtDescripcion, lblTipo, comboBox};
+			if(JOptionPane.showConfirmDialog(null, components) == JOptionPane.OK_OPTION ) {
+				Producto p = new Producto(txtName.getText(), comboBox.getSelectedItem().toString(), txtDescripcion.getText(), 0, Integer.parseInt(txtId.getText()), 0);
+				if(ventana.productos.keySet().contains(Integer.parseInt(txtId.getText()))) {
+					JOptionPane.showConfirmDialog(ventana, "Introduce un ID que aun no esté registrado.");
+				}else {
+				ventana.productos.put(Integer.parseInt(txtId.getText()), p);
+				cargarModelo();
+				}
+			}
+			tabla.repaint();
 		});
 		
 		btnBorrar.addActionListener(e -> {
-			
+			if(tabla.getSelectedRow() != -1) {
+				int id = (int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0);
+				ventana.productos.remove(id);
+				cargarModelo();
+			}
 		});
 		
 		btnDetalles.addActionListener(e -> {
-			
+			if(tabla.getSelectedRow() != -1) {
+				VentanaDetallesProducto ventanaDetalle = new VentanaDetallesProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)));
+			}
 		});
 		
 		this.add(pSur,BorderLayout.SOUTH);
@@ -136,10 +167,10 @@ public class PanelInventario extends JPanel {
 	}
 	
 	private class ModeloTabla extends AbstractTableModel{
-		private ArrayList<Producto> productos;
-		private String[] header = {"NOMBRE", "PRECIO/UNIDAD", "TOTAL"};
+		private HashMap<Integer, Producto> productos;
+		private String[] header = {"ID","NOMBRE", "PRECIO/UNIDAD", "TOTAL"};
 		
-		public ModeloTabla(ArrayList<Producto> productos) {
+		public ModeloTabla(HashMap<Integer, Producto> productos) {
 			super();
 			this.productos = productos;
 		}
@@ -155,7 +186,7 @@ public class PanelInventario extends JPanel {
 
 		@Override
 		public int getColumnCount() {
-			return 3;
+			return 4;
 		}
 
 		@Override
@@ -175,9 +206,10 @@ public class PanelInventario extends JPanel {
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			switch(columnIndex) {
-			case 0: return productos.get(rowIndex).getNombre();
-			case 1: return productos.get(rowIndex).getPrecio();
-			case 2: return productos.get(rowIndex).getCantidad();
+			case 0: return productos.get(productos.keySet().toArray()[rowIndex]).getIdProducto();
+			case 1: return productos.get(productos.keySet().toArray()[rowIndex]).getNombre();
+			case 2: return productos.get(productos.keySet().toArray()[rowIndex]).getPrecio();
+			case 3: return productos.get(productos.keySet().toArray()[rowIndex]).getCantidad();
 			default: return null;
 			}
 		}
@@ -191,7 +223,7 @@ public class PanelInventario extends JPanel {
 			JPanel panel = new JPanel();
 			JLabel lbl = new JLabel(value.toString());
 			
-			if((Integer)table.getModel().getValueAt(row, 2) <= 0) {
+			if((Integer)table.getModel().getValueAt(row, 3) <= 0) {
 				panel.setBackground(Color.red);;
 			}
 			
@@ -231,10 +263,10 @@ public class PanelInventario extends JPanel {
 		/**
 		 * Este método filtra el contenido del modelo por un parámetro.
 		 */
-		ArrayList<Producto> filtrada = new ArrayList<Producto>();
-		ventana.productos.forEach(p -> {
-			if(p.getTipo() == filtro) {
-				filtrada.add(p);
+		HashMap<Integer, Producto> filtrada = new HashMap<Integer, Producto>();
+		ventana.productos.keySet().forEach(k -> {
+			if(ventana.productos.get(k).getTipo() == filtro) {
+				filtrada.put(ventana.productos.get(k).getIdProducto(), ventana.productos.get(k));
 			}
 		});
 		ModeloTabla modelo = new ModeloTabla(filtrada);
@@ -246,7 +278,7 @@ public class PanelInventario extends JPanel {
 		/**
 		 * Este método carga el modelo con todos los productos.
 		 */
-		ArrayList<Producto> productos = ventana.productos;
+		HashMap<Integer, Producto> productos = ventana.productos;
 		ModeloTabla modelo = new ModeloTabla(productos);
 		tabla.setModel(modelo);
 		tabla.repaint();

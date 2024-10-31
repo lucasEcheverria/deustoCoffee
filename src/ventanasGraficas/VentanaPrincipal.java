@@ -34,7 +34,7 @@ public class VentanaPrincipal extends JFrame{
 	
 	private HashMap<Integer, Cuenta> cuentas;
 	
-	protected ArrayList<Producto> productos;
+	protected HashMap<Integer, Producto> productos;
 	protected ArrayList<String> tipos;
 	
 	public VentanaPrincipal(){
@@ -49,9 +49,9 @@ public class VentanaPrincipal extends JFrame{
 		botonesLaterales = new ArrayList<JButton>();
 		tipos = new ArrayList<String>();
 		tipos.add("CERVEZA");
-		productos = new ArrayList<Producto>();
+		productos = new HashMap<Integer, Producto>();
 		Producto p = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 0);
-		productos.add(p);
+		productos.put(p.getIdProducto(), p);
 		
 		//Panel central
 		pCentral = new PanelInventario(this);
