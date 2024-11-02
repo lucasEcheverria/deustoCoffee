@@ -17,6 +17,9 @@ import javax.swing.text.Document;
 import deustoCoffee.Producto;
 
 public class VentanaDetallesProducto extends JFrame{
+	/**
+	 * Esta es una vetana que muestra los detalles de un producto y puede editar detalles como la descripción.
+	 */
 	private Producto producto;
 	private JLabel lblCantidad, lblPrecio, lblDescripcion;
 	private JPanel pInfo, pDescripcion;
