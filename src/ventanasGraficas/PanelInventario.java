@@ -136,7 +136,7 @@ public class PanelInventario extends JPanel {
 			String[] suport = new String[ventana.tipos.size()];
 			suport = ventana.tipos.toArray(suport);
 			JComboBox<String> comboBox = new JComboBox<>(suport);
-			JComponent[] components = {lblName, txtName,lblId, txtId ,lblDescripcion, txtDescripcion, lblTipo, comboBox};
+			JComponent[] components = {lblName, txtName,lblId, txtId ,lblDescripcion, new JScrollPane(txtDescripcion), lblTipo, comboBox};
 			if(JOptionPane.showConfirmDialog(null, components) == JOptionPane.OK_OPTION ) {
 				Producto p = new Producto(txtName.getText(), comboBox.getSelectedItem().toString(), txtDescripcion.getText(), 0, Integer.parseInt(txtId.getText()), 0);
 				if(ventana.productos.keySet().contains(Integer.parseInt(txtId.getText()))) {
@@ -163,7 +163,7 @@ public class PanelInventario extends JPanel {
 		
 		btnDetalles.addActionListener(e -> {
 			if(tabla.getSelectedRow() != -1) {
-				VentanaDetallesProducto ventanaDetalle = new VentanaDetallesProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)));
+				VentanaDetallesProducto ventanaDetalle = new VentanaDetallesProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)), ventana);
 			}
 		});
 		
