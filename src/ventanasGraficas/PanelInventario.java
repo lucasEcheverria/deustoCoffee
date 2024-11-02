@@ -74,6 +74,7 @@ public class PanelInventario extends JPanel {
 		tabla.setDefaultRenderer(Object.class, render);
 		editor  = new SpinnerEditor();
 		tabla.getColumn("TOTAL").setCellEditor(editor);
+		tabla.getColumn("PRECIO/UNIDAD").setCellEditor(editor);
 		
 		pCentral = new JScrollPane(tabla);
 		this.add(pCentral, BorderLayout.CENTER);
@@ -146,6 +147,8 @@ public class PanelInventario extends JPanel {
 				}
 			}
 			tabla.repaint();
+			tabla.getColumn("TOTAL").setCellEditor(editor);
+			tabla.getColumn("PRECIO/UNIDAD").setCellEditor(editor);
 		});
 		
 		btnBorrar.addActionListener(e -> {
@@ -153,6 +156,8 @@ public class PanelInventario extends JPanel {
 				int id = (int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0);
 				ventana.productos.remove(id);
 				cargarModelo();
+				tabla.getColumn("TOTAL").setCellEditor(editor);
+				tabla.getColumn("PRECIO/UNIDAD").setCellEditor(editor);
 			}
 		});
 		
@@ -177,6 +182,12 @@ public class PanelInventario extends JPanel {
 		
 		@Override
 		public void setValueAt(Object value, int row, int col) {
+			int key = (int) productos.keySet().toArray()[row];
+			if(col == 3) {
+			productos.get(key).setCantidad((int) value);
+			}else if(col == 2) {
+				productos.get(key).setPrecio(Double.parseDouble(value.toString()));
+			}
 		}
 
 		@Override
@@ -196,7 +207,7 @@ public class PanelInventario extends JPanel {
 
 		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			if(columnIndex == 0) {
+			if(columnIndex == 0 || columnIndex == 1) {
 				return false;
 			}else {
 				return true;
