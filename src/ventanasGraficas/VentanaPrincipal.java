@@ -32,10 +32,13 @@ public class VentanaPrincipal extends JFrame{
 	private ArrayList<JButton> botonesLaterales;
 	private JButton btnProductos, btnInventario;
 	
-	private HashMap<Integer, Cuenta> cuentas;
+	protected HashMap<Integer, Cuenta> cuentas;
 	
 	protected HashMap<Integer, Producto> productos;
 	protected ArrayList<String> tipos;
+	
+	protected final PanelProductos panelProductos;
+	protected final PanelInventario panelInventario;
 	
 	public VentanaPrincipal(){
 		super();
@@ -53,6 +56,9 @@ public class VentanaPrincipal extends JFrame{
 		Producto p = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 0);
 		productos.put(p.getIdProducto(), p);
 		
+		panelInventario = new PanelInventario(this);
+		panelProductos = new PanelProductos(this);
+		
 		//Panel central
 		pCentral = new PanelInventario(this);
 		getContentPane().add(pCentral, BorderLayout.CENTER);
@@ -63,7 +69,7 @@ public class VentanaPrincipal extends JFrame{
 		btnProductos = new JButton("PRODUCTOS");
 		btnProductos.addActionListener(e -> {
 			getContentPane().remove(pCentral);
-			pCentral = new PanelProductos();
+			pCentral = panelProductos;
 			getContentPane().add(pCentral, BorderLayout.CENTER);
 			pCentral.revalidate();
 			pCentral.repaint();
@@ -71,7 +77,7 @@ public class VentanaPrincipal extends JFrame{
 		btnInventario = new JButton("INVENTARIO");
 		btnInventario.addActionListener(e -> {
 			getContentPane().remove(pCentral);
-			pCentral = new PanelInventario(this);
+			pCentral = panelInventario;
 			getContentPane().add(pCentral, BorderLayout.CENTER);
 			pCentral.revalidate();
 			pCentral.repaint();
@@ -90,6 +96,7 @@ public class VentanaPrincipal extends JFrame{
 			});
 			botonesLaterales.add(btnCuenta);
 			cargarBotones(botonesLaterales);
+			panelProductos.cargarComboBox();
 		});
 		/*
 		 * Los action listener de los botones hacen que al accionarlos se cambie el panel central por un nuevo panel,
