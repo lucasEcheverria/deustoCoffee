@@ -157,7 +157,7 @@ public class PanelProductos extends JPanel  {
 
 		@Override
 		public int getRowCount() {
-			return productos.size();
+			return (productos.size()/6)+1;
 		}
 
 		@Override
