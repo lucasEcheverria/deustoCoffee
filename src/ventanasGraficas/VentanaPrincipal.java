@@ -52,9 +52,20 @@ public class VentanaPrincipal extends JFrame{
 		botonesLaterales = new ArrayList<JButton>();
 		tipos = new ArrayList<String>();
 		tipos.add("CERVEZA");
+		tipos.add("PATATAS");
 		productos = new HashMap<Integer, Producto>();
-		Producto p = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 0);
-		productos.put(p.getIdProducto(), p);
+		Producto p1 = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 0);
+		Producto p2 = new Producto("Caña", "CERVEZA", "Cerveza normal", 2, 2, 0);
+		Producto p3 = new Producto("Corto", "CERVEZA", "Cerveza pequeña", 2, 3, 0);
+		Producto p4 = new Producto("Bravas", "PATATAS", "Patatas con salsa brava", 2, 4, 0);
+		Producto p5 = new Producto("Arrugas", "PATATAS", "Al más estilo canário", 2, 5, 0);
+		Producto p6 = new Producto("A la riojana", "PATATAS", "Como en casa", 2, 6, 0);
+		productos.put(p1.getIdProducto(), p1);
+		productos.put(p2.getIdProducto(), p2);
+		productos.put(p3.getIdProducto(), p3);
+		productos.put(p4.getIdProducto(), p4);
+		productos.put(p5.getIdProducto(), p5);
+		productos.put(p6.getIdProducto(), p6);
 		
 		panelInventario = new PanelInventario(this);
 		panelProductos = new PanelProductos(this);
@@ -81,6 +92,7 @@ public class VentanaPrincipal extends JFrame{
 			getContentPane().add(pCentral, BorderLayout.CENTER);
 			pCentral.revalidate();
 			pCentral.repaint();
+			panelInventario.cargarModelo();
 		});
 		JButton btnAniadir = new JButton("AÑADIR CUENTA");
 		btnAniadir.addActionListener(e -> {

@@ -184,7 +184,7 @@ public class PanelInventario extends JPanel {
 		public void setValueAt(Object value, int row, int col) {
 			int key = (int) productos.keySet().toArray()[row];
 			if(col == 3) {
-			productos.get(key).setCantidad((int) value);
+			productos.get(key).setCantidad(Integer.parseInt(value.toString()));
 			}else if(col == 2) {
 				productos.get(key).setPrecio(Double.parseDouble(value.toString()));
 			}
@@ -285,7 +285,7 @@ public class PanelInventario extends JPanel {
 		tabla.repaint();
 	}
 	
-	private void cargarModelo() {
+	protected void cargarModelo() {
 		/**
 		 * Este método carga el modelo con todos los productos.
 		 */
