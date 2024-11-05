@@ -88,7 +88,7 @@ public class VentanaPrincipal extends JFrame{
 		btnInventario = new JButton("INVENTARIO");
 		btnInventario.addActionListener(e -> {
 			getContentPane().remove(pCentral);
-			pCentral = panelInventario;
+			pCentral = new PanelInventario(this);
 			getContentPane().add(pCentral, BorderLayout.CENTER);
 			pCentral.revalidate();
 			pCentral.repaint();

@@ -52,10 +52,10 @@ public class PanelInventario extends JPanel {
 	private JScrollPane pCentral;
 	private JPanel pSur;
 	private JButton btnAniadir, btnBorrar, btnDetalles;
-	private JTable tabla;
+	protected JTable tabla;
 	private ModeloTabla modelo;
 	private RenderTabla render;
-	private SpinnerEditor editor;
+	protected SpinnerEditor editor;
 	private DefaultMutableTreeNode nodo;
 	private JTree jTree;
 	private DefaultTreeModel treeModel;

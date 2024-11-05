@@ -87,7 +87,7 @@ public class PanelProductos extends JPanel  {
 		tabla = new JTable(modelo);
 		render = new RenderTabla();
 		tabla.setDefaultRenderer(Object.class, render);
-		tabla.setRowHeight(25);
+		tabla.setRowHeight(100);
 		tabla.getTableHeader().setReorderingAllowed(false);
 		scrollpane = new JScrollPane(tabla);
 		add(scrollpane, BorderLayout.CENTER);
@@ -203,7 +203,8 @@ public class PanelProductos extends JPanel  {
 				JPanel panel = new JPanel();
 				JLabel lbl = new JLabel(value.toString());
 				panel.add(lbl);
-				
+				lbl.setHorizontalAlignment(SwingConstants.CENTER);
+				lbl.setVerticalAlignment(SwingConstants.CENTER);
 				if(((Producto) value).getCantidad() == 0) {
 					panel.setBackground(Color.red);
 				}
