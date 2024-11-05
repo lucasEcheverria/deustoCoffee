@@ -3,12 +3,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -89,6 +92,26 @@ public class PanelProductos extends JPanel  {
 		tabla.setDefaultRenderer(Object.class, render);
 		tabla.setRowHeight(100);
 		tabla.getTableHeader().setReorderingAllowed(false);
+		tabla.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int fila = tabla.rowAtPoint(e.getPoint());
+                int columna = tabla.columnAtPoint(e.getPoint());
+                
+                Producto producto = (Producto) tabla.getModel().getValueAt(fila, columna);
+                
+                if(producto != null && producto.getCantidad() > 0) {
+                	int cantidad = ventana.productos.get(producto.getIdProducto()).getCantidad() -1;
+                	ventana.productos.get(producto.getIdProducto()).setCantidad(cantidad);
+                	tabla.repaint();
+                	
+                	//TODO añadir a cuenta
+                }
+                if(producto.getCantidad() == 0) {
+                	JOptionPane.showMessageDialog(ventana, "NO QUEDAN ARTICULOS DE ESTE PRODUCTO");
+                }
+			}
+		});
 		scrollpane = new JScrollPane(tabla);
 		add(scrollpane, BorderLayout.CENTER);
 		
