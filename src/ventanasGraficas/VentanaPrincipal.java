@@ -33,12 +33,12 @@ public class VentanaPrincipal extends JFrame{
 	private JButton btnProductos, btnInventario;
 	
 	protected HashMap<Integer, Cuenta> cuentas;
+	private int total;
 	
 	protected HashMap<Integer, Producto> productos;
 	protected ArrayList<String> tipos;
 	
 	protected final PanelProductos panelProductos;
-	protected final PanelInventario panelInventario;
 	
 	public VentanaPrincipal(){
 		super();
@@ -67,7 +67,8 @@ public class VentanaPrincipal extends JFrame{
 		productos.put(p5.getIdProducto(), p5);
 		productos.put(p6.getIdProducto(), p6);
 		
-		panelInventario = new PanelInventario(this);
+		total = 1;
+		
 		panelProductos = new PanelProductos(this);
 		
 		//Panel central
@@ -92,16 +93,16 @@ public class VentanaPrincipal extends JFrame{
 			getContentPane().add(pCentral, BorderLayout.CENTER);
 			pCentral.revalidate();
 			pCentral.repaint();
-			panelInventario.cargarModelo();
 		});
 		JButton btnAniadir = new JButton("AÑADIR CUENTA");
 		btnAniadir.addActionListener(e -> {
-			Cuenta c = new Cuenta(cuentas.size());
+			Cuenta c = new Cuenta(total);
+			total ++;
 			cuentas.put(c.getId(), c);
 			JButton btnCuenta = new JButton(String.format("Cuenta %d", c.getId()));
 			btnCuenta.addActionListener(a -> {
 				getContentPane().remove(pCentral);
-				pCentral = new PanelCuenta(c);
+				pCentral = new PanelCuenta(c, this);
 				getContentPane().add(pCentral, BorderLayout.CENTER);
 				pCentral.revalidate();
 				pCentral.repaint();

@@ -15,7 +15,13 @@ public class Cuenta {
 		return id;
 	}
 
+	public HashMap<Integer, Integer> getProductos() {
+		return productos;
+	}
 
+	public void setProductos(HashMap<Integer, Integer> productos) {
+		this.productos = productos;
+	}
 
 	public void setId(int id) {
 		this.id = id;

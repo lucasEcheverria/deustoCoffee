@@ -100,15 +100,27 @@ public class PanelProductos extends JPanel  {
                 
                 Producto producto = (Producto) tabla.getModel().getValueAt(fila, columna);
                 
-                if(producto != null && producto.getCantidad() > 0) {
+                if(producto != null && producto.getCantidad() > 0 && comboBox.getSelectedItem() != null) {
                 	int cantidad = ventana.productos.get(producto.getIdProducto()).getCantidad() -1;
                 	ventana.productos.get(producto.getIdProducto()).setCantidad(cantidad);
+                	Producto seleccionado = ventana.productos.get(producto.getIdProducto());
                 	tabla.repaint();
                 	
                 	//TODO añadir a cuenta
-                }
-                if(producto.getCantidad() == 0) {
+                	Integer idCuenta = (Integer) comboBox.getSelectedItem();
+                	if(ventana.cuentas.get(idCuenta).getProductos().keySet().contains(seleccionado.getIdProducto())) {
+                		//Añadir uno
+                		int antes = ventana.cuentas.get(idCuenta).getProductos().get(seleccionado.getIdProducto());
+                		antes++;
+                		ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), antes);
+                	}else {
+                		//Añadir elemento
+                		ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), 1);
+                	}
+                }else if(producto.getCantidad() == 0) {
                 	JOptionPane.showMessageDialog(ventana, "NO QUEDAN ARTICULOS DE ESTE PRODUCTO");
+                }else if(comboBox.getSelectedItem() == null) {
+                	JOptionPane.showMessageDialog(ventana, "SELECCIONE UNA CUENTA");
                 }
 			}
 		});
