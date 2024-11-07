@@ -33,7 +33,8 @@ public class PanelProductos extends JPanel  {
 	private static final long serialVersionUID = 1L;
 	private Integer idSeleccionado;
 	private VentanaPrincipal ventana;
-	private JPanel pIzquierda, pComboBox;
+	private JPanel pIzquierda, pComboBox, pCentro; 
+	private PanelCuenta pCuenta;
 	private DefaultMutableTreeNode nodo;
 	private JTree jTree;
 	private DefaultTreeModel treeModel;
@@ -73,19 +74,11 @@ public class PanelProductos extends JPanel  {
 			}
 		});;
 		pIzquierda.add(jTree);
-		//JComboBox
-		pComboBox = new JPanel();
-		
-		comboBox = new JComboBox<Integer>();
-		cargarComboBox();
-		comboBox.addActionListener(e->{
-			idSeleccionado = (Integer) comboBox.getSelectedItem();
-		});
-		pComboBox.add(comboBox);
-		pIzquierda.add(pComboBox);
-		add(pIzquierda, BorderLayout.WEST);
 		
 		//Panel central
+		pCentro = new JPanel();
+		pCentro.setLayout(new GridLayout(2,1));
+		
 		modelo = new ModeloTabla(ventana.productos);
 		tabla = new JTable(modelo);
 		render = new RenderTabla();
@@ -96,37 +89,64 @@ public class PanelProductos extends JPanel  {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int fila = tabla.rowAtPoint(e.getPoint());
-                int columna = tabla.columnAtPoint(e.getPoint());
-                
-                Producto producto = (Producto) tabla.getModel().getValueAt(fila, columna);
-                
-                if(producto != null && producto.getCantidad() > 0 && comboBox.getSelectedItem() != null) {
-                	int cantidad = ventana.productos.get(producto.getIdProducto()).getCantidad() -1;
-                	ventana.productos.get(producto.getIdProducto()).setCantidad(cantidad);
-                	Producto seleccionado = ventana.productos.get(producto.getIdProducto());
-                	tabla.repaint();
-                	
-                	//TODO añadir a cuenta
-                	Integer idCuenta = (Integer) comboBox.getSelectedItem();
-                	if(ventana.cuentas.get(idCuenta).getProductos().keySet().contains(seleccionado.getIdProducto())) {
-                		//Añadir uno
-                		int antes = ventana.cuentas.get(idCuenta).getProductos().get(seleccionado.getIdProducto());
-                		antes++;
-                		ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), antes);
-                	}else {
-                		//Añadir elemento
-                		ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), 1);
-                	}
-                }else if(producto.getCantidad() == 0) {
-                	JOptionPane.showMessageDialog(ventana, "NO QUEDAN ARTICULOS DE ESTE PRODUCTO");
-                }else if(comboBox.getSelectedItem() == null) {
-                	JOptionPane.showMessageDialog(ventana, "SELECCIONE UNA CUENTA");
-                }
+				int columna = tabla.columnAtPoint(e.getPoint());
+		                
+		        Producto producto = (Producto) tabla.getModel().getValueAt(fila, columna);
+		                
+		        if(producto != null && producto.getCantidad() > 0 && comboBox.getSelectedItem() != null) {
+		      	int cantidad = ventana.productos.get(producto.getIdProducto()).getCantidad() -1;
+		      	ventana.productos.get(producto.getIdProducto()).setCantidad(cantidad);
+		        Producto seleccionado = ventana.productos.get(producto.getIdProducto());
+		        tabla.repaint();
+		                	
+		        //TODO añadir a cuenta
+		        Integer idCuenta = (Integer) comboBox.getSelectedItem();
+		        if(ventana.cuentas.get(idCuenta).getProductos().keySet().contains(seleccionado.getIdProducto())) {
+			        //Añadir uno
+			        int antes = ventana.cuentas.get(idCuenta).getProductos().get(seleccionado.getIdProducto());
+			        antes++;
+			        ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), antes);
+		        }else {
+		             //Añadir elemento
+		             ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), 1);
+		        }
+		        }else if(producto.getCantidad() == 0) {
+		             JOptionPane.showMessageDialog(ventana, "NO QUEDAN ARTICULOS DE ESTE PRODUCTO");
+		        }else if(comboBox.getSelectedItem() == null) {
+		             JOptionPane.showMessageDialog(ventana, "SELECCIONE UNA CUENTA");
+		        }
+		        idSeleccionado = (Integer) comboBox.getSelectedItem();
+				pCentro.remove(pCuenta);
+				pCuenta = new PanelCuenta(ventana.cuentas.get(idSeleccionado), ventana);
+				pCentro.add(pCuenta);
+				pCentro.revalidate();
+				pCentro.repaint();
 			}
 		});
 		scrollpane = new JScrollPane(tabla);
-		add(scrollpane, BorderLayout.CENTER);
+		pCentro.add(scrollpane);
+				
+		//JComboBox
 		
+		pComboBox = new JPanel();
+		pCuenta = new PanelCuenta(null, ventana);
+		pCentro.add(pCuenta);
+		comboBox = new JComboBox<Integer>();
+		cargarComboBox();
+		comboBox.addActionListener(e->{
+			idSeleccionado = (Integer) comboBox.getSelectedItem();
+			pCentro.remove(pCuenta);
+			pCuenta = new PanelCuenta(ventana.cuentas.get(idSeleccionado), ventana);
+			pCentro.add(pCuenta);
+			pCentro.revalidate();
+			pCentro.repaint();
+		});
+		pComboBox.add(comboBox);
+		pIzquierda.add(pComboBox);
+		add(pIzquierda, BorderLayout.WEST);
+		
+		//
+		add(pCentro, BorderLayout.CENTER);
 		
 	}
 	

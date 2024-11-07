@@ -28,10 +28,13 @@ public class PanelCuenta extends JPanel  {
 		
 		//Panel Central
 		pCentral = new JPanel();
-		pCentral.setLayout(new GridLayout(cuenta.getProductos().size(), 1));
-		for(Integer key : cuenta.getProductos().keySet()) {
-			JLabel lbl = new JLabel(String.format("%s: %d || precio por unidad: %.2f€ || precio producto(s) %.2f €", ventana.productos.get(key).getNombre(), cuenta.getProductos().get(key),ventana.productos.get(key).getPrecio(), ventana.productos.get(key).getPrecio()* cuenta.getProductos().get(key)));
-			pCentral.add(lbl);
+		if(cuenta != null) {
+			pCentral.setLayout(new GridLayout(cuenta.getProductos().size(), 1));
+		
+			for(Integer key : cuenta.getProductos().keySet()) {
+				JLabel lbl = new JLabel(String.format("%s: %d || precio por unidad: %.2f€ || precio producto(s) %.2f €", ventana.productos.get(key).getNombre(), cuenta.getProductos().get(key),ventana.productos.get(key).getPrecio(), ventana.productos.get(key).getPrecio()* cuenta.getProductos().get(key)));
+				pCentral.add(lbl);
+			}
 		}
 		add(pCentral, BorderLayout.CENTER);
 		
@@ -44,9 +47,13 @@ public class PanelCuenta extends JPanel  {
 			//Eliminar cuenta y su boton.
 		});
 		pSur.add(btnImprimir);
-		
-		lblTotal = new JLabel(String.format("TOTAL: %.2f €", calcularTotal()));
-		pSur.add(lblTotal);
+		if(cuenta != null) {
+			lblTotal = new JLabel(String.format("TOTAL: %.2f €", calcularTotal()));
+			pSur.add(lblTotal);
+		}else {
+			lblTotal = new JLabel(String.format("TOTAL: %.2f €", 0.00));
+			pSur.add(lblTotal);
+		}
 		
 		add(pSur, BorderLayout.SOUTH);
 	}
