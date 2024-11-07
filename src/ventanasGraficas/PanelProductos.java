@@ -238,8 +238,8 @@ public class PanelProductos extends JPanel  {
 				JPanel panel = new JPanel();
 				JLabel lbl = new JLabel(value.toString());
 				panel.add(lbl);
-				lbl.setHorizontalAlignment(SwingConstants.CENTER);
-				lbl.setVerticalAlignment(SwingConstants.CENTER);
+				lbl.setHorizontalAlignment(JLabel.CENTER);
+				lbl.setVerticalAlignment(JLabel.CENTER);
 				if(((Producto) value).getCantidad() == 0) {
 					panel.setBackground(Color.red);
 				}
