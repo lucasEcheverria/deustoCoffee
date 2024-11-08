@@ -2,13 +2,16 @@ package deustoCoffee;
 
 import java.util.Objects;
 
+import javax.swing.ImageIcon;
+
 public class Producto {
 	protected String nombre, tipo, descripcion;
 	protected double precio;
 	protected int idProducto, cantidad;
+	private ImageIcon icon;
 	
 	// Constructor con argumentos
-	public Producto(String nombre, String tipo, String descripcion, double precio, int idProducto, int cantidad) {
+	public Producto(String nombre, String tipo, String descripcion, double precio, int idProducto, int cantidad, String ruta) {
 		super();
 		this.nombre = nombre;
 		this.tipo = tipo;
@@ -16,6 +19,7 @@ public class Producto {
 		this.precio = precio;
 		this.idProducto = idProducto;
 		this.cantidad = cantidad;
+		this.icon = new ImageIcon(ruta);
 	}
 	
 	// Constructor sin argumentos
@@ -85,6 +89,14 @@ public class Producto {
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public ImageIcon getIcon() {
+		return icon;
+	}
+
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
 	}
 
 	@Override

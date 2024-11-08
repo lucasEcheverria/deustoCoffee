@@ -7,6 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +33,7 @@ import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.CellEditorListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -136,9 +139,15 @@ public class PanelInventario extends JPanel {
 			String[] suport = new String[ventana.tipos.size()];
 			suport = ventana.tipos.toArray(suport);
 			JComboBox<String> comboBox = new JComboBox<>(suport);
-			JComponent[] components = {lblName, txtName,lblId, txtId ,lblDescripcion, new JScrollPane(txtDescripcion), lblTipo, comboBox};
+			JLabel lblFoto = new JLabel("Foto: ");
+			JFileChooser chooser = new JFileChooser();
+		    FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        "PNG & JPG & GIF Images", "png", "jpg", "jpeg");
+		    chooser.setFileFilter(filter);
+		    chooser.setCurrentDirectory(new File("/deustoCoffee/img"));
+			JComponent[] components = {lblName, txtName,lblId, txtId ,lblDescripcion, new JScrollPane(txtDescripcion), lblTipo, comboBox, lblFoto, chooser};
 			if(JOptionPane.showConfirmDialog(null, components) == JOptionPane.OK_OPTION ) {
-				Producto p = new Producto(txtName.getText(), comboBox.getSelectedItem().toString(), txtDescripcion.getText(), 0, Integer.parseInt(txtId.getText()), 0);
+				Producto p = new Producto(txtName.getText(), comboBox.getSelectedItem().toString(), txtDescripcion.getText(), 0, Integer.parseInt(txtId.getText()), 0,chooser.getSelectedFile().getAbsolutePath());
 				if(ventana.productos.keySet().contains(Integer.parseInt(txtId.getText()))) {
 					JOptionPane.showConfirmDialog(ventana, "Introduce un ID que aun no esté registrado.");
 				}else {

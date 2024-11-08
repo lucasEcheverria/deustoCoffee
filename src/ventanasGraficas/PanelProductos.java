@@ -2,6 +2,7 @@ package ventanasGraficas;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -32,9 +33,10 @@ public class PanelProductos extends JPanel  {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Integer idSeleccionado;
-	private VentanaPrincipal ventana;
-	private JPanel pIzquierda, pComboBox, pCentro; 
-	private PanelCuenta pCuenta;
+	protected VentanaPrincipal ventana;
+	private JPanel pIzquierda, pComboBox;
+	protected JPanel pCentro, pcont; 
+	protected PanelCuenta pCuenta;
 	private DefaultMutableTreeNode nodo;
 	private JTree jTree;
 	private DefaultTreeModel treeModel;
@@ -66,9 +68,9 @@ public class PanelProductos extends JPanel  {
                 TreePath path = jTree.getPathForLocation(e.getX(), e.getY());
                 if(row != -1) {
                 	DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-                	filtrarModelo(selectedNode.toString());
+                	filtrarPanel(selectedNode.toString());
                 	if(selectedNode == nodo) {
-                		cargarModelo();
+                		cargarPanel();
                 	}
                 }	
 			}
@@ -79,51 +81,14 @@ public class PanelProductos extends JPanel  {
 		pCentro = new JPanel();
 		pCentro.setLayout(new GridLayout(2,1));
 		
-		modelo = new ModeloTabla(ventana.productos);
-		tabla = new JTable(modelo);
-		render = new RenderTabla();
-		tabla.setDefaultRenderer(Object.class, render);
-		tabla.setRowHeight(100);
-		tabla.getTableHeader().setReorderingAllowed(false);
-		tabla.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int fila = tabla.rowAtPoint(e.getPoint());
-				int columna = tabla.columnAtPoint(e.getPoint());
-		                
-		        Producto producto = (Producto) tabla.getModel().getValueAt(fila, columna);
-		                
-		        if(producto != null && producto.getCantidad() > 0 && comboBox.getSelectedItem() != null) {
-		      	int cantidad = ventana.productos.get(producto.getIdProducto()).getCantidad() -1;
-		      	ventana.productos.get(producto.getIdProducto()).setCantidad(cantidad);
-		        Producto seleccionado = ventana.productos.get(producto.getIdProducto());
-		        tabla.repaint();
-		                	
-		        //TODO añadir a cuenta
-		        Integer idCuenta = (Integer) comboBox.getSelectedItem();
-		        if(ventana.cuentas.get(idCuenta).getProductos().keySet().contains(seleccionado.getIdProducto())) {
-			        //Añadir uno
-			        int antes = ventana.cuentas.get(idCuenta).getProductos().get(seleccionado.getIdProducto());
-			        antes++;
-			        ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), antes);
-		        }else {
-		             //Añadir elemento
-		             ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), 1);
-		        }
-		        }else if(producto.getCantidad() == 0) {
-		             JOptionPane.showMessageDialog(ventana, "NO QUEDAN ARTICULOS DE ESTE PRODUCTO");
-		        }else if(comboBox.getSelectedItem() == null) {
-		             JOptionPane.showMessageDialog(ventana, "SELECCIONE UNA CUENTA");
-		        }
-		        idSeleccionado = (Integer) comboBox.getSelectedItem();
-				pCentro.remove(pCuenta);
-				pCuenta = new PanelCuenta(ventana.cuentas.get(idSeleccionado), ventana);
-				pCentro.add(pCuenta);
-				pCentro.revalidate();
-				pCentro.repaint();
-			}
-		});
-		scrollpane = new JScrollPane(tabla);
+		scrollpane = new JScrollPane();
+		pcont = new JPanel();
+		pcont.setPreferredSize(new Dimension(pCentro.getWidth(),1200));
+		
+		cargarPanel();
+		
+		scrollpane.setViewportView(pcont);
+		
 		pCentro.add(scrollpane);
 				
 		//JComboBox
@@ -175,29 +140,33 @@ public class PanelProductos extends JPanel  {
 		}
 	}
 	
-	private void filtrarModelo(String filtro) {
+	private void filtrarPanel(String filtro) {
 		/**
-		 * Este método filtra el contenido del modelo por un parámetro.
+		 * Este método filtra el contenido del panel por un parámetro.
 		 */
-		HashMap<Integer, Producto> filtrada = new HashMap<Integer, Producto>();
-		ventana.productos.keySet().forEach(k -> {
-			if(ventana.productos.get(k).getTipo() == filtro) {
-				filtrada.put(ventana.productos.get(k).getIdProducto(), ventana.productos.get(k));
+		pcont.removeAll();
+		comboBox.removeAllItems();
+		for(Integer key : ventana.productos.keySet()) {
+			comboBox.addItem(key);
+			if(ventana.productos.get(key).getTipo().equals(filtro)) {
+				IconoProducto icono = new IconoProducto(ventana.productos.get(key), this);
+				pcont.add(icono);
 			}
-		});
-		ModeloTabla modelo = new ModeloTabla(filtrada);
-		tabla.setModel(modelo);
-		tabla.repaint();
+		}
+
+		pcont.repaint();
 	}
 	
-	protected void cargarModelo() {
+	protected void cargarPanel() {
 		/**
-		 * Este método carga el modelo con todos los productos.
+		 * Este método carga el panel con todos los productos.
 		 */
-		HashMap<Integer, Producto> productos = ventana.productos;
-		ModeloTabla modelo = new ModeloTabla(productos);
-		tabla.setModel(modelo);
-		tabla.repaint();
+		pcont.removeAll();
+		for(Integer key : ventana.productos.keySet()) {
+			IconoProducto icono = new IconoProducto(ventana.productos.get(key), this);
+			pcont.add(icono);
+		}
+		pcont.repaint();
 	}
 	
 	

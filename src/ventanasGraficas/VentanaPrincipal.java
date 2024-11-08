@@ -10,9 +10,11 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -27,7 +29,7 @@ public class VentanaPrincipal extends JFrame{
 	 */
 	
 	//Atributos
-	private JPanel pBotones, pCentral, p;
+	protected JPanel pBotones, pCentral, p;
 	private JScrollPane scrollBotones;
 	private ArrayList<JButton> botonesLaterales;
 	private JButton btnProductos, btnInventario;
@@ -54,18 +56,9 @@ public class VentanaPrincipal extends JFrame{
 		tipos.add("CERVEZA");
 		tipos.add("PATATAS");
 		productos = new HashMap<Integer, Producto>();
-		Producto p1 = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 0);
-		Producto p2 = new Producto("Caña", "CERVEZA", "Cerveza normal", 2, 2, 0);
-		Producto p3 = new Producto("Corto", "CERVEZA", "Cerveza pequeña", 2, 3, 0);
-		Producto p4 = new Producto("Bravas", "PATATAS", "Patatas con salsa brava", 2, 4, 0);
-		Producto p5 = new Producto("Arrugas", "PATATAS", "Al más estilo canário", 2, 5, 0);
-		Producto p6 = new Producto("A la riojana", "PATATAS", "Como en casa", 2, 6, 0);
+		Producto p1 = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 0, "img/pinta.png");
+		p1.setIcon(new ImageIcon("img/pinta.png"));
 		productos.put(p1.getIdProducto(), p1);
-		productos.put(p2.getIdProducto(), p2);
-		productos.put(p3.getIdProducto(), p3);
-		productos.put(p4.getIdProducto(), p4);
-		productos.put(p5.getIdProducto(), p5);
-		productos.put(p6.getIdProducto(), p6);
 		
 		total = 1;
 		
@@ -81,10 +74,12 @@ public class VentanaPrincipal extends JFrame{
 		btnProductos = new JButton("PRODUCTOS");
 		btnProductos.addActionListener(e -> {
 			getContentPane().remove(pCentral);
-			pCentral = panelProductos;
+			pCentral = new PanelProductos(this);
 			getContentPane().add(pCentral, BorderLayout.CENTER);
 			pCentral.revalidate();
 			pCentral.repaint();
+			cargarBotones(botonesLaterales);
+			panelProductos.cargarComboBox();
 		});
 		btnInventario = new JButton("INVENTARIO");
 		btnInventario.addActionListener(e -> {
@@ -106,7 +101,7 @@ public class VentanaPrincipal extends JFrame{
 			pCentral.repaint();
 			cargarBotones(botonesLaterales);
 			panelProductos.cargarComboBox();
-			panelProductos = new PanelProductos(this);
+			JOptionPane.showMessageDialog(this, "NUEVA CUENTA CREADA");
 		});
 		/*
 		 * Los action listener de los botones hacen que al accionarlos se cambie el panel central por un nuevo panel,
