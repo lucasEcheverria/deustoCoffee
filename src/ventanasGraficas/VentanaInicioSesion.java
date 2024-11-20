@@ -22,6 +22,15 @@ public class VentanaInicioSesion extends JFrame {
 	    // Inicialización de componentes
 	    JTabbedPane tabbedPane = new JTabbedPane();
 	    
+	    // Titulos
+	    JLabel titulo = new JLabel("¡Bienvenid@ a Deusto Coffee!", JLabel.CENTER);
+	    titulo.setFont(new Font("Comic Sans MS", Font.BOLD, 24));
+        titulo.setForeground(new Color(139, 69, 19));
+        
+        JLabel titulo2 = new JLabel("¡Bienvenid@ a Deusto Coffee!", JLabel.CENTER);
+        titulo2.setFont(new Font("Comic Sans MS", Font.BOLD, 24));
+        titulo2.setForeground(new Color(139, 69, 19));
+	    
 	    // Añadir imagen
 	    ImageIcon logo = new ImageIcon("img/logo.jpg");
 	    JLabel label = new JLabel(logo);
@@ -34,16 +43,18 @@ public class VentanaInicioSesion extends JFrame {
 	    JTextField usuarioRegistroField = new JTextField();
 	    JPasswordField contraseñaRegistroField = new JPasswordField();
 	    JButton botonRegistrar = new JButton("Registrar");
-
-	    imgPanel.add(label, BorderLayout.NORTH);
+	    
+	    imgPanel.add(titulo, BorderLayout.NORTH);
+	    imgPanel.add(label, BorderLayout.CENTER);
 
 	    panelRegistro.add(new JLabel("Usuario:"));
 	    panelRegistro.add(usuarioRegistroField);
 	    panelRegistro.add(new JLabel("Contraseña:"));
 	    panelRegistro.add(contraseñaRegistroField);
 	    panelRegistro.add(botonRegistrar);
+	   	    
+	    imgPanel.add(panelRegistro, BorderLayout.SOUTH);
 	    
-	    imgPanel.add(panelRegistro, BorderLayout.CENTER);
 	    tabbedPane.addTab("Registro", imgPanel);
 
 	    // Panel de Inicio de Sesión
@@ -58,9 +69,10 @@ public class VentanaInicioSesion extends JFrame {
 	    panelLogIn.add(new JLabel("Contraseña:"));
 	    panelLogIn.add(contraseñaLogInField);
 	    panelLogIn.add(botonLogIn);
-
-	    img2Panel.add(label2, BorderLayout.NORTH);
-	    img2Panel.add(panelLogIn, BorderLayout.CENTER);
+	    
+	    img2Panel.add(titulo2, BorderLayout.NORTH);
+	    img2Panel.add(label2, BorderLayout.CENTER);
+	    img2Panel.add(panelLogIn, BorderLayout.SOUTH);
 	    tabbedPane.addTab("Inicio De Sesión", img2Panel);
 	    add(tabbedPane);
 	    
