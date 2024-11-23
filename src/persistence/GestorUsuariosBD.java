@@ -1,6 +1,7 @@
-package dataBase;
+package persistence;
 
 import java.nio.file.Files;
+
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import deustoCoffee.Usuario;
+import domain.Usuario;
 
 public class GestorUsuariosBD {
 	private static final String DRIVER_NAME = "org.sqlite.JDBC";
