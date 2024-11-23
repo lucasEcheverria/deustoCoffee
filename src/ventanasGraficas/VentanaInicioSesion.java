@@ -1,7 +1,7 @@
 package ventanasGraficas;
 import javax.swing.*;
 
-import deustoCoffee.Usuario;
+import domain.Usuario;
 
 import java.awt.*;
 import java.awt.event.*;

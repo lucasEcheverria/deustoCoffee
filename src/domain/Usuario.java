@@ -1,4 +1,4 @@
-package deustoCoffee;
+package domain;
 
 import java.util.Objects;
 

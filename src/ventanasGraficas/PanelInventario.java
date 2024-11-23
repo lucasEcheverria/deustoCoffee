@@ -41,7 +41,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import deustoCoffee.Producto;
+import domain.Producto;
 
 public class PanelInventario extends JPanel {
 	/**
