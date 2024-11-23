@@ -16,7 +16,7 @@ import domain.Usuario;
 
 public class GestorUsuariosBD {
 	private static final String DRIVER_NAME = "org.sqlite.JDBC";
-    private static final String DATABASE_FILE = "db/database.db";
+    private static final String DATABASE_FILE = "db/userDatabase.db";
     private static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
 
 	public GestorUsuariosBD() {
@@ -86,9 +86,16 @@ public class GestorUsuariosBD {
     // Insertar usuario
     public void insertarDatos(Usuario u) {
         String sqlTemplate = "INSERT INTO USUARIO (NAME, SURNAME, EMAIL, PASSWORD, PHONE) VALUES (?, ?, ?, ?, ?)";
+        String sql = "SELECT * FROM USUARIO WHERE EMAIL = ? AND PHONE = ?";
         try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
         PreparedStatement pstmt = con.prepareStatement(sqlTemplate)) {
-			if (validarEmail(u.getEmail()) && validarTelefono(u.getTelefono()) && 
+		PreparedStatement pstmt2 = con.prepareStatement(sql);
+		pstmt2.setString(1, u.getEmail());
+		pstmt2.setInt(2, u.getTelefono());
+		ResultSet rs = pstmt2.executeQuery();
+			if (rs.next()) {
+				System.err.println("El usuario ya existe");
+			} else if (validarEmail(u.getEmail()) && validarTelefono(u.getTelefono()) && 
 				u.getNombre() != null && u.getApellidos() != null && u.getContrasena() != null) {
 				pstmt.setString(1, u.getNombre());
 				pstmt.setString(2, u.getApellidos());
@@ -129,6 +136,19 @@ public class GestorUsuariosBD {
         return usuarios;
     }
 
+    // Borrar un usuario
+	public void borrarUsuario(Usuario usuario) {
+		int id = usuario.getId();
+		String sql = "DELETE FROM USUARIO WHERE ID = ?";
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+			System.out.println("- Usuario con ID " + id + " borrado");
+		} catch (Exception ex) {
+			System.err.println("* Error al borrar datos: " + ex.getMessage());
+		}
+	}
     // Borrar todos los usuarios
     public void borrarDatos() {
         ejecutarSQL("DELETE FROM USUARIO");

@@ -3,7 +3,8 @@ package domain;
 import java.util.Objects;
 
 public class Usuario {
-	private int id = -1;
+	private static int idCounter = -1;
+	private int id;
 	protected String nombre;
 	protected String apellidos;
 	protected String email;
@@ -19,6 +20,7 @@ public class Usuario {
 		this.email = email;
 		this.contrasena = contrasena;
 		this.telefono = telefono;
+		this.id = ++idCounter;
 	}
 	// Constructor sin argumentos
 	public Usuario() {
