@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import deustoCoffee.Producto;
+import domain.Producto;
 
 public class IconoProducto extends JPanel{
 	private static final long serialVersionUID = 1L;

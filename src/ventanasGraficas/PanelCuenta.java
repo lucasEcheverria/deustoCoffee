@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import deustoCoffee.Cuenta;
+import domain.Cuenta;
 
 public class PanelCuenta extends JPanel  {
 	/**

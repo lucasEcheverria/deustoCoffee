@@ -14,7 +14,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Document;
 
-import deustoCoffee.Producto;
+import domain.Producto;
 
 public class VentanaDetallesProducto extends JFrame{
 	/**

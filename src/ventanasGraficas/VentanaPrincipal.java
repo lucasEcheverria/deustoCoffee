@@ -18,8 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import deustoCoffee.Cuenta;
-import deustoCoffee.Producto;
+import domain.Cuenta;
+import domain.Producto;
 
 public class VentanaPrincipal extends JFrame{
 	/**
