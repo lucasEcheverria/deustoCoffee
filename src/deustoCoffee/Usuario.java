@@ -7,7 +7,7 @@ public class Usuario {
 	protected String apellidos;
 	protected String email;
 	protected String contrasena;
-	protected int  telefono;
+	protected int telefono;
 	protected int idUsuario;
 	
 	// Constructor con argumentos
