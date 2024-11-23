@@ -114,17 +114,16 @@ public class VentanaInicioSesion extends JFrame {
 	     botonLogIn.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 Usuario usuario = new Usuario();
-	        	 usuario.setNombre(usuarioLogInField.getText());
+	        	 usuario.setEmail(usuarioLogInField.getText());
 	        	 usuario.setContrasena(new String(contraseñaLogInField.getPassword()));
-	        	 
 	             usuarioLogInField.setText("");
 	             contraseñaLogInField.setText("");{
 	             if (gestorUsuarios.existeUsuario(usuario)) {
-	            	 JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario.getNombre() + "!");
+	            	 JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario.getEmail() + "!");
 	            	 dispose();
 	            	 new VentanaPrincipal().setVisible(true);
 	             } else {
-	            	 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+	            	 JOptionPane.showMessageDialog(null, "El usuario no existe");
 	             }
 	         }
 	         }});

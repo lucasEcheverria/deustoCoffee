@@ -23,6 +23,7 @@ public class Main {
 	        for (Usuario usuario : gestorUsuarios.obtenerDatos()) {
 	            System.out.println(usuario.toString());
 	        }
+	        
 
 	        // Borrar todos los usuarios
 	        //gestorUsuarios.borrarDatos();
