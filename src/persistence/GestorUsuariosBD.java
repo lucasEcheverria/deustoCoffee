@@ -84,16 +84,12 @@ public class GestorUsuariosBD {
     }
 
     // Insertar usuario
-    public void insertarDatos(Usuario u) {
+    public boolean insertarDatos(Usuario u) {
+    	boolean resultado = false;
         String sqlTemplate = "INSERT INTO USUARIO (NAME, SURNAME, EMAIL, PASSWORD, PHONE) VALUES (?, ?, ?, ?, ?)";
-        String sql = "SELECT * FROM USUARIO WHERE EMAIL = ? AND PHONE = ?";
         try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
         PreparedStatement pstmt = con.prepareStatement(sqlTemplate)) {
-		PreparedStatement pstmt2 = con.prepareStatement(sql);
-		pstmt2.setString(1, u.getEmail());
-		pstmt2.setInt(2, u.getTelefono());
-		ResultSet rs = pstmt2.executeQuery();
-			if (rs.next()) {
+			if (existeUsuario(u)) {
 				System.err.println("El usuario ya existe");
 			} else if (validarEmail(u.getEmail()) && validarTelefono(u.getTelefono()) && 
 				u.getNombre() != null && u.getApellidos() != null && u.getContrasena() != null) {
@@ -104,12 +100,14 @@ public class GestorUsuariosBD {
 				pstmt.setInt(5, u.getTelefono());
 				pstmt.executeUpdate();
 				System.out.println("Usuario insertado correctamente");
+				resultado = true;
 			} else {
 				System.err.println("Los datos son incorrectos. Usuario no insertado");
 			}
 		} catch (Exception ex) {
 			System.err.println("* Error al insertar datos: " + ex.getMessage());
         }
+		return resultado;
     }
 
     // Obtener todos los usuarios
@@ -144,8 +142,13 @@ public class GestorUsuariosBD {
 			pstmt.setString(1, usuario.getEmail());
 			pstmt.setString(2, usuario.getContrasena());
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println("La comprobacion de usuario ha sido aprobada");
-			return true;
+			if (rs.next()) {
+				System.out.println("El usuario ya existe");
+				return true;
+			} else {
+				System.out.println("El usuario no existe");
+				return false;
+			}
 		} catch (Exception ex) {
 			System.err.println("* Error al comprobar usuario: " + ex.getMessage());
 			return false;

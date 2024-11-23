@@ -10,15 +10,13 @@ import java.util.ArrayList;
 
 public class VentanaInicioSesion extends JFrame {
 	private static final long serialVersionUID = 1L;
-	 private ArrayList<Usuario> usuariosRegistrados = new ArrayList<>();
-	 private ArrayList<Usuario> loginUsers = new ArrayList<>();
 	 private GestorUsuariosBD gestorUsuarios = new GestorUsuariosBD();
 
 	public VentanaInicioSesion() {
 		// Configuración del JFrame
 	    setTitle("Inicio de Sesión / Registro");
 	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	    setSize(500, 500);
+	    setSize(500, 650);
 		setLocationRelativeTo(null);
 
 	    // Inicialización de componentes
@@ -41,14 +39,23 @@ public class VentanaInicioSesion extends JFrame {
 	    
 	    // Panel de Registro
 	    JPanel imgPanel = new JPanel(new BorderLayout());
-	    JPanel panelRegistro = new JPanel(new GridLayout(5, 1, 10, 10));
+	    JPanel panelRegistro = new JPanel(new GridLayout(11, 1, 10, 10));
+	    JTextField nombreField = new JTextField();
+	    JTextField apellidosField = new JTextField();
+	    JTextField tlfField = new JTextField();
 	    JTextField usuarioRegistroField = new JTextField();
 	    JPasswordField contraseñaRegistroField = new JPasswordField();
 	    JButton botonRegistrar = new JButton("Registrar");
 	    
 	    imgPanel.add(titulo, BorderLayout.NORTH);
 	    imgPanel.add(label, BorderLayout.CENTER);
-
+	    
+	    panelRegistro.add(new JLabel("Nombre:"));
+	    panelRegistro.add(nombreField);
+	    panelRegistro.add(new JLabel("Apellidos:"));
+	    panelRegistro.add(apellidosField);
+	    panelRegistro.add(new JLabel("Teléfono:"));
+	    panelRegistro.add(tlfField);
 	    panelRegistro.add(new JLabel("Usuario:"));
 	    panelRegistro.add(usuarioRegistroField);
 	    panelRegistro.add(new JLabel("Contraseña:"));
@@ -82,12 +89,24 @@ public class VentanaInicioSesion extends JFrame {
 	     botonRegistrar.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {
 	        	 Usuario usuario = new Usuario();
-	        	 usuario.setNombre(usuarioRegistroField.getText());
+	        	 usuario.setNombre(nombreField.getText());
+	        	 usuario.setApellidos(apellidosField.getText());
+	        	 usuario.setTelefono(Integer.parseInt(tlfField.getText()));
+	        	 usuario.setEmail(usuarioRegistroField.getText());
 	        	 usuario.setContrasena(new String(contraseñaRegistroField.getPassword()));
-	        	 usuariosRegistrados.add(usuario);
-	        	 gestorUsuarios.insertarDatos(usuario);
+	        	 boolean insertado= gestorUsuarios.insertarDatos(usuario);
+					if (insertado) {
+						JOptionPane.showMessageDialog(null, "¡Usuario registrado correctamente!");
+					} else {
+						JOptionPane.showMessageDialog(null, "Error al registrar el usuario");
+					}
+				 nombreField.setText("");
+				 apellidosField.setText("");
+				 tlfField.setText("");
 	             usuarioRegistroField.setText("");
 	             contraseñaRegistroField.setText("");
+	             dispose();
+	             new VentanaPrincipal().setVisible(true);
 	         }
 	     });
 
