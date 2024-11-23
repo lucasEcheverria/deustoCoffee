@@ -2,6 +2,7 @@ package ventanasGraficas;
 import javax.swing.*;
 
 import domain.Usuario;
+import persistence.GestorUsuariosBD;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,6 +12,7 @@ public class VentanaInicioSesion extends JFrame {
 	private static final long serialVersionUID = 1L;
 	 private ArrayList<Usuario> usuariosRegistrados = new ArrayList<>();
 	 private ArrayList<Usuario> loginUsers = new ArrayList<>();
+	 private GestorUsuariosBD gestorUsuarios = new GestorUsuariosBD();
 
 	public VentanaInicioSesion() {
 		// Configuración del JFrame
@@ -83,6 +85,7 @@ public class VentanaInicioSesion extends JFrame {
 	        	 usuario.setNombre(usuarioRegistroField.getText());
 	        	 usuario.setContrasena(new String(contraseñaRegistroField.getPassword()));
 	        	 usuariosRegistrados.add(usuario);
+	        	 gestorUsuarios.insertarDatos(usuario);
 	             usuarioRegistroField.setText("");
 	             contraseñaRegistroField.setText("");
 	         }
@@ -94,11 +97,18 @@ public class VentanaInicioSesion extends JFrame {
 	        	 Usuario usuario = new Usuario();
 	        	 usuario.setNombre(usuarioLogInField.getText());
 	        	 usuario.setContrasena(new String(contraseñaLogInField.getPassword()));
-	             loginUsers.add(usuario);
+	        	 
 	             usuarioLogInField.setText("");
-	             contraseñaLogInField.setText("");
+	             contraseñaLogInField.setText("");{
+	             if (gestorUsuarios.existeUsuario(usuario)) {
+	            	 JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario.getNombre() + "!");
+	            	 dispose();
+	            	 new VentanaPrincipal().setVisible(true);
+	             } else {
+	            	 JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos");
+	             }
 	         }
-	     });
+	         }});
 	    }
 	
 	public static void main(String[] args) {

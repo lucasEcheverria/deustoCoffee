@@ -136,6 +136,22 @@ public class GestorUsuariosBD {
         return usuarios;
     }
 
+    // Comprobar si un usuario existe
+	public boolean existeUsuario(Usuario usuario) {
+		String sql = "SELECT * FROM USUARIO WHERE EMAIL = ? AND PASSWORD = ?";
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setString(1, usuario.getEmail());
+			pstmt.setString(2, usuario.getContrasena());
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("La comprobacion de usuario ha sido aprobada");
+			return true;
+		} catch (Exception ex) {
+			System.err.println("* Error al comprobar usuario: " + ex.getMessage());
+			return false;
+		}
+	}
+    
     // Borrar un usuario
 	public void borrarUsuario(Usuario usuario) {
 		int id = usuario.getId();
