@@ -47,7 +47,14 @@ public class VentanaPrincipal extends JFrame{
 		setTitle("DEUSTOCOFFEE");
 		setSize(600, 400);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				cerrarsesion();
+			}
+		});
 		
 		//Inicialización de parametros
 		cuentas = new HashMap<Integer, Cuenta>();
@@ -120,6 +127,14 @@ public class VentanaPrincipal extends JFrame{
 		setVisible(true);
 	}
 	
+	private int cerrarsesion() {
+		if (JOptionPane.showConfirmDialog(this, "¿Estás seguro de que quieres cerrar sesión?", "Cerrar sesión",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			dispose();
+		} else {}
+		return 0;
+	}
+
 	private void cargarBotones(ArrayList<JButton> botonesLaterales) {
 		/**
 		 * Este metodo coge los el todos los botones que hay y los mete todos en el panel de botones al lateral izquierdo de la pantalla.

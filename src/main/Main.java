@@ -24,7 +24,6 @@ public class Main {
 	            System.out.println(usuario.toString());
 	        }
 	        
-
 	        // Borrar todos los usuarios
 	        //gestorUsuarios.borrarDatos();
 
