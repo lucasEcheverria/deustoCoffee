@@ -121,6 +121,7 @@ public class GestorUsuariosBD {
        				rs.getInt("PHONE"),
        				rs.getInt("ID")
             );
+        	usuario.setId(rs.getInt("ID"));
             usuarios.add(usuario);
         	}
         } catch (Exception ex) {

@@ -3,22 +3,23 @@ package domain;
 import java.util.Objects;
 
 public class Usuario {
+	private int id = -1;
 	protected String nombre;
 	protected String apellidos;
 	protected String email;
 	protected String contrasena;
 	protected int telefono;
-	protected int idUsuario;
+	
 	
 	// Constructor con argumentos
-	public Usuario(String nombre, String apellidos, String email, String contrasena, int telefono, int idUsuario) {
+	public Usuario(String nombre, String apellidos, String email, String contrasena, int telefono, int id) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.contrasena = contrasena;
 		this.telefono = telefono;
-		this.idUsuario = idUsuario;
+		this.id = id;
 	}
 	// Constructor sin argumentos
 	public Usuario() {
@@ -28,7 +29,6 @@ public class Usuario {
 		this.email = "";
 		this.contrasena = "";
 		this.telefono = 0;
-		this.idUsuario = 0;
 	}
 	// Constructor copia
 	public Usuario(Usuario otro) {
@@ -38,7 +38,6 @@ public class Usuario {
 		this.email = otro.email;
 		this.contrasena = otro.contrasena;
 		this.telefono = otro.telefono;
-		this.idUsuario = otro.idUsuario;
 	}
 	// Getters & Setters
 	public String getNombre() {
@@ -71,17 +70,15 @@ public class Usuario {
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
 	}
-	public int getIdUsuario() {
-		return idUsuario;
+	public int getId() {
+		return id;
 	}
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setId(int id) {
+		this.id = id;
 	}
-	
-	// HashCode & Equals
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellidos, contrasena, email, idUsuario, nombre, telefono);
+		return Objects.hash(id);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -93,15 +90,14 @@ public class Usuario {
 			return false;
 		Usuario other = (Usuario) obj;
 		return Objects.equals(apellidos, other.apellidos) && Objects.equals(contrasena, other.contrasena)
-				&& Objects.equals(email, other.email) && idUsuario == other.idUsuario
-				&& Objects.equals(nombre, other.nombre) && telefono == other.telefono;
+				&& Objects.equals(email, other.email) && id == other.id && Objects.equals(nombre, other.nombre)
+				&& telefono == other.telefono;
 	}
-	
-	// toString
 	@Override
 	public String toString() {
-		return "Datos del usuario= [nombre:" + nombre + ", apellidos:" + apellidos + ", email:" + email + ", contraseña:"
-				+ contrasena + ", teléfono:" + telefono + ", id del Usuario:" + idUsuario + "]";
+		return "Datos del usuario con id "+id + ": nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
+				+ ", contraseña=" + contrasena + ", telefono=" + telefono;
 	}
-		
 }
+	
+	
