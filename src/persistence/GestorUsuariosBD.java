@@ -16,7 +16,7 @@ import domain.Usuario;
 
 public class GestorUsuariosBD {
 	private static final String DRIVER_NAME = "org.sqlite.JDBC";
-    private static final String DATABASE_FILE = "resources/db/database.db";
+    private static final String DATABASE_FILE = "db/database.db";
     private static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
 
 	public GestorUsuariosBD() {
@@ -118,8 +118,7 @@ public class GestorUsuariosBD {
             		rs.getString("SURNAME"),
             		rs.getString("EMAIL"),
             		rs.getString("PASSWORD"),
-       				rs.getInt("PHONE"),
-       				rs.getInt("ID")
+       				rs.getInt("PHONE")
             );
         	usuario.setId(rs.getInt("ID"));
             usuarios.add(usuario);

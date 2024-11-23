@@ -12,14 +12,13 @@ public class Usuario {
 	
 	
 	// Constructor con argumentos
-	public Usuario(String nombre, String apellidos, String email, String contrasena, int telefono, int id) {
+	public Usuario(String nombre, String apellidos, String email, String contrasena, int telefono) {
 		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.contrasena = contrasena;
 		this.telefono = telefono;
-		this.id = id;
 	}
 	// Constructor sin argumentos
 	public Usuario() {
