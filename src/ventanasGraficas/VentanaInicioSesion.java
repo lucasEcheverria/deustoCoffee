@@ -97,16 +97,16 @@ public class VentanaInicioSesion extends JFrame {
 	        	 boolean insertado= gestorUsuarios.insertarDatos(usuario);
 					if (insertado) {
 						JOptionPane.showMessageDialog(null, "¡Usuario registrado correctamente!");
+						dispose();
+						new VentanaPrincipal().setVisible(true);
 					} else {
-						JOptionPane.showMessageDialog(null, "Error al registrar el usuario");
+						JOptionPane.showMessageDialog(null, "Error al registrar el usuario, el usuario ya existe o los datos son incorrectos");
 					}
 				 nombreField.setText("");
 				 apellidosField.setText("");
 				 tlfField.setText("");
 	             usuarioRegistroField.setText("");
 	             contraseñaRegistroField.setText("");
-	             dispose();
-	             new VentanaPrincipal().setVisible(true);
 	         }
 	     });
 

@@ -136,11 +136,10 @@ public class GestorUsuariosBD {
 
     // Comprobar si un usuario existe
 	public boolean existeUsuario(Usuario usuario) {
-		String sql = "SELECT * FROM USUARIO WHERE EMAIL = ? AND PASSWORD = ?";
+		String sql = "SELECT * FROM USUARIO WHERE EMAIL = ?";
 		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
 				PreparedStatement pstmt = con.prepareStatement(sql)) {
 			pstmt.setString(1, usuario.getEmail().toLowerCase().trim());
-			pstmt.setString(2, usuario.getContrasena().trim());
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				System.out.println("El usuario ya existe");
