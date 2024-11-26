@@ -153,6 +153,45 @@ public class GestorUsuariosBD {
 			return false;
 		}
 	}
+	
+	// Iniciar sesion
+	public boolean iniciarSesion(Usuario usuario) {
+		String sql = "SELECT * FROM USUARIO WHERE EMAIL = ? AND PASSWORD = ?";
+		try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+				PreparedStatement pstmt = con.prepareStatement(sql)) {
+			pstmt.setString(1, usuario.getEmail().toLowerCase().trim());
+			pstmt.setString(2, usuario.getContrasena());
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				System.out.println("¡Bienvenido " + usuario.getEmail() + "!");
+				return true;
+			} else {
+				System.out.println("El usuario no existe");
+				return false;
+			}
+		} catch (Exception ex) {
+			System.err.println("* Error al iniciar sesión: " + ex.getMessage());
+			return false;
+		}
+	}
+
+	// Actualizar un usuario
+	public void actualizarUsuario(Usuario usuario) {
+        String sql = "UPDATE USUARIO SET NAME = ?, SURNAME = ?, EMAIL = ?, PASSWORD = ?, PHONE = ? WHERE ID = ?";
+        try (Connection con = DriverManager.getConnection(CONNECTION_STRING);
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, usuario.getNombre());
+            pstmt.setString(2, usuario.getApellidos());
+            pstmt.setString(3, usuario.getEmail());
+            pstmt.setString(4, usuario.getContrasena());
+            pstmt.setInt(5, usuario.getTelefono());
+            pstmt.setInt(6, usuario.getId());
+            pstmt.executeUpdate();
+            System.out.println("- Usuario con ID " + usuario.getId() + " actualizado");
+        } catch (Exception ex) {
+            System.err.println("* Error al actualizar datos: " + ex.getMessage());
+        }
+	}
     
     // Borrar un usuario
 	public void borrarUsuario(Usuario usuario) {

@@ -118,7 +118,7 @@ public class VentanaInicioSesion extends JFrame {
 	        	 usuario.setContrasena(new String(contraseñaLogInField.getPassword()));
 	             usuarioLogInField.setText("");
 	             contraseñaLogInField.setText("");{
-	             if (gestorUsuarios.existeUsuario(usuario)) {
+	             if (gestorUsuarios.iniciarSesion(usuario)) {
 	            	 JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario.getEmail() + "!");
 	            	 dispose();
 	            	 new VentanaPrincipal().setVisible(true);
