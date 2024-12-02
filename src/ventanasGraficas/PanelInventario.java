@@ -42,6 +42,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import domain.Producto;
+import persistence.GestorBD;
 
 public class PanelInventario extends JPanel {
 	/**
@@ -62,9 +63,11 @@ public class PanelInventario extends JPanel {
 	private DefaultMutableTreeNode nodo;
 	private JTree jTree;
 	private DefaultTreeModel treeModel;
+	private GestorBD gestorDB;
 	
 	public PanelInventario(VentanaPrincipal ventana) {
 		this.ventana = ventana; //nos interesa saber la ventana porque ahi es donde tenemos los datos almacenados.
+		gestorDB = new GestorBD();
 		
 		this.setLayout(new BorderLayout());
 		
@@ -153,6 +156,9 @@ public class PanelInventario extends JPanel {
 				}else {
 				ventana.productos.put(Integer.parseInt(txtId.getText()), p);
 				cargarModelo();
+				gestorDB.setConn();
+				gestorDB.insertarProducto(p);
+				gestorDB.cerrarBD();
 				}
 			}
 			tabla.repaint();
@@ -163,6 +169,9 @@ public class PanelInventario extends JPanel {
 		btnBorrar.addActionListener(e -> {
 			if(tabla.getSelectedRow() != -1) {
 				int id = (int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0);
+				gestorDB.setConn();
+				gestorDB.borrarProducto(id);
+				gestorDB.cerrarBD();
 				ventana.productos.remove(id);
 				cargarModelo();
 				tabla.getColumn("TOTAL").setCellEditor(editor);
@@ -173,11 +182,14 @@ public class PanelInventario extends JPanel {
 		btnDetalles.addActionListener(e -> {
 			if(tabla.getSelectedRow() != -1) {
 				VentanaDetallesProducto ventanaDetalle = new VentanaDetallesProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)), ventana);
+				gestorDB.setConn();
+				gestorDB.actualizarProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)));
+				gestorDB.cerrarBD();
 			}
 		});
 		
 		this.add(pSur,BorderLayout.SOUTH);
-		
+		gestorDB.cerrarBD();
 	}
 	
 	private class ModeloTabla extends AbstractTableModel{

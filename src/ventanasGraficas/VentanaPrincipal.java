@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,6 +21,7 @@ import javax.swing.JScrollPane;
 
 import domain.Cuenta;
 import domain.Producto;
+import persistence.GestorBD;
 
 public class VentanaPrincipal extends JFrame{
 	/**
@@ -42,6 +44,8 @@ public class VentanaPrincipal extends JFrame{
 	
 	protected PanelProductos panelProductos;
 	
+	private GestorBD gestorDB;
+	
 	public VentanaPrincipal(){
 		super();
 		setTitle("DEUSTOCOFFEE");
@@ -59,13 +63,22 @@ public class VentanaPrincipal extends JFrame{
 		//Inicialización de parametros
 		cuentas = new HashMap<Integer, Cuenta>();
 		botonesLaterales = new ArrayList<JButton>();
+
+		gestorDB = new GestorBD();
+		File f = new File("db/productos.db");
+		if(!f.exists()) {
+			gestorDB.crearBD();
+		}
+		productos = gestorDB.descargarProductos();
+		gestorDB.cerrarBD();
+		
 		tipos = new ArrayList<String>();
-		tipos.add("CERVEZA");
-		tipos.add("PATATAS");
-		productos = new HashMap<Integer, Producto>();
-		Producto p1 = new Producto("Pinta", "CERVEZA", "Cerveza grande", 2, 1, 0, "img/pinta.png");
-		p1.setIcon(new ImageIcon("img/pinta.png"));
-		productos.put(p1.getIdProducto(), p1);
+		for(Integer k : productos.keySet()) {
+			String tipo = productos.get(k).getTipo();
+			if(!tipos.contains(tipo)) {
+				tipos.add(tipo);
+			}
+		}
 		
 		total = 1;
 		
