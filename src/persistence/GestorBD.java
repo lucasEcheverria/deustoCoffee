@@ -63,7 +63,7 @@ public class GestorBD {
     }
     
     public void insertarProducto(Producto p) {
-    	String sql = "ISERT INTO PRODUCTO (ID, NAME, CANTIDAD, PRECIO, RUTA, TIPO, DESCRIPCION) VALUES (?,?,?,?,?,?,?)";
+    	String sql = "INSERT INTO PRODUCTO (ID, NAME, CANTIDAD, PRECIO, RUTA, TIPO, DESCRIPCION) VALUES (?,?,?,?,?,?,?)";
     	try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, p.getIdProducto());
@@ -111,7 +111,7 @@ public class GestorBD {
     public HashMap<Integer, Producto> descargarProductos(){
     	HashMap<Integer,Producto> productos = new HashMap<Integer, Producto>();
     	
-    	String sql = "SELETC * FROM PRODUCTO";
+    	String sql = "SELECT * FROM PRODUCTO";
     	try {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
