@@ -48,12 +48,27 @@ public class GestorBD {
                 NAME TEXT NOT NULL,
                 CANTIDAD INTEGER NOT NULL,
                 PRECIO FLOAT NOT NULL,
-                RUTA TEXT NOT NULL
-                TIPO TEXT NOT NULL,
-                DESCRIPCION TEXT
+                RUTA TEXT NOT NULL,
+                TIPO INTEGER NOT NULL,
+                DESCRIPCION TEXT,
+                FOREIGN KEY (TIPO) REFERENCES TIPO(ID) ON DELETE CASCADE ON UPDATE CASCADE
             );
         """;
         try {
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        
+        sql = """
+	            CREATE TABLE IF NOT EXISTS TIPO (
+	                ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	                NAME TEXT NOT NULL
+	            );
+	        """;
+		try {
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate(sql);
 			stmt.close();
@@ -81,6 +96,19 @@ public class GestorBD {
     	
     }
     
+    public void insertarTipo(String tipo) {
+    	String sql = "INSERT INTO TIPO (NAME) VALUES (?)";
+    	try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, tipo);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    }
+    
     public void actualizarProducto(Producto p) {
     	String sql = "UPDATE PRODUCTO SET CANTIDAD = ?, PRECIO = ?, DESCRIPCION = ? WHERE ID = ?";
     	try {
@@ -89,7 +117,7 @@ public class GestorBD {
 			pstmt.setFloat(2, (float) p.getPrecio());
 			pstmt.setString(3, p.getDescripcion());
 			pstmt.setInt(4, p.getIdProducto());
-			System.out.println(String.format("Producto actualizado: %s", p.toString()));
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -124,6 +152,23 @@ public class GestorBD {
 		}
     	
     	return productos;
+    }
+    
+    public List<String> descargarTipos(){
+    	ArrayList<String> tipos = new ArrayList<String>();
+    	
+    	String sql = "SELECT * FROM TIPO";
+    	try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				tipos.add(rs.getString("NAME"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    	return tipos;
     }
     
     public void cerrarBD() {

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import domain.Producto;
+import persistence.GestorBD;
 
 public class IconoProducto extends JPanel{
 	private static final long serialVersionUID = 1L;
@@ -24,11 +25,13 @@ public class IconoProducto extends JPanel{
 	private int idSeleccionado;
 	private final int MAX_WIDTH = 150;
 	private final int MAX_HIGH = 150;
+	private GestorBD gestorDB;
 
 	public IconoProducto(Producto producto, PanelProductos panel) {
 		super();
 		this.producto = producto;
 		this.panel= panel;
+		gestorDB = new GestorBD();
 		
 		idSeleccionado = 0;
 		
@@ -55,6 +58,9 @@ public class IconoProducto extends JPanel{
 				if(producto != null && producto.getCantidad() > 0 && panel.comboBox.getSelectedItem() != null) {
 			      	int cantidad = panel.ventana.productos.get(producto.getIdProducto()).getCantidad() -1;
 			      	panel.ventana.productos.get(producto.getIdProducto()).setCantidad(cantidad);
+			      	gestorDB.setConn();
+			      	gestorDB.actualizarProducto(panel.ventana.productos.get(producto.getIdProducto()));
+			      	gestorDB.cerrarBD();
 			        Producto seleccionado = panel.ventana.productos.get(producto.getIdProducto());
 			        panel.repaint();
 			                	

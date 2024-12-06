@@ -6,6 +6,8 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/paula/OneDrive/Escritorio/Program III/2024/sqlite-jdbc-3.47.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-2.0.16.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-simple-2.0.16.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.47.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -98,6 +98,9 @@ public class PanelInventario extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_C && e.isControlDown()) {
 					String tipo = JOptionPane.showInputDialog("Nuevo tipo: ");
+					gestorDB.setConn();
+					gestorDB.insertarTipo(tipo);
+					gestorDB.cerrarBD();
 					ventana.tipos.add(tipo);
 					cargarArbol();
 				}
@@ -209,6 +212,9 @@ public class PanelInventario extends JPanel {
 			}else if(col == 2) {
 				productos.get(key).setPrecio(Double.parseDouble(value.toString()));
 			}
+			gestorDB.setConn();
+			gestorDB.actualizarProducto(productos.get(key));
+			gestorDB.cerrarBD();
 		}
 
 		@Override

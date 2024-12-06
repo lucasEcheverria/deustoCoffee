@@ -65,20 +65,11 @@ public class VentanaPrincipal extends JFrame{
 		botonesLaterales = new ArrayList<JButton>();
 
 		gestorDB = new GestorBD();
-		File f = new File("db/productos.db");
-		if(!f.exists()) {
-			gestorDB.crearBD();
-		}
+		gestorDB.crearBD();
 		productos = gestorDB.descargarProductos();
-		gestorDB.cerrarBD();
 		
-		tipos = new ArrayList<String>();
-		for(Integer k : productos.keySet()) {
-			String tipo = productos.get(k).getTipo();
-			if(!tipos.contains(tipo)) {
-				tipos.add(tipo);
-			}
-		}
+		tipos = (ArrayList<String>) gestorDB.descargarTipos();
+		gestorDB.cerrarBD();
 		
 		total = 1;
 		
