@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import domain.Producto;
 import persistence.GestorBD;
@@ -38,6 +39,7 @@ public class IconoProducto extends JPanel{
 		setLayout(new BorderLayout());
 		
 		lblNombre = new JLabel(producto.getNombre());
+		lblNombre.setOpaque(true);
 		lblNombre.setHorizontalAlignment(JLabel.CENTER);
 		add(lblNombre, BorderLayout.NORTH);
 		
@@ -63,17 +65,39 @@ public class IconoProducto extends JPanel{
 			      	gestorDB.cerrarBD();
 			        Producto seleccionado = panel.ventana.productos.get(producto.getIdProducto());
 			        panel.repaint();
-			                	
-			        //TODO añadir a cuenta
+			        
 			        Integer idCuenta = (Integer) panel.comboBox.getSelectedItem();
+
+			        Runnable run = new Runnable() {
+						
+						@Override
+						public void run() {
+							SwingUtilities.invokeLater(()->{
+								lblNombre.setBackground(Color.blue);
+							});
+							try {
+								Thread.sleep(2000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							SwingUtilities.invokeLater(()->{
+								lblNombre.setBackground(null);
+							});
+						}
+					};
+					
+					Thread t = new Thread(run);
+			        
 			        if(panel.ventana.cuentas.get(idCuenta).getProductos().keySet().contains(seleccionado.getIdProducto())) {
 				        //Añadir uno
 				        int antes = panel.ventana.cuentas.get(idCuenta).getProductos().get(seleccionado.getIdProducto());
 				        antes++;
 				        panel.ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), antes);
+						t.start();
 			        }else {
 			             //Añadir elemento
 			             panel.ventana.cuentas.get(idCuenta).getProductos().put(seleccionado.getIdProducto(), 1);
+			             t.start();
 			        }
 			        }else if(producto.getCantidad() == 0) {
 			             JOptionPane.showMessageDialog(panel.ventana, "NO QUEDAN ARTICULOS DE ESTE PRODUCTO");
