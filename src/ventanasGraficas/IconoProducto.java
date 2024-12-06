@@ -86,7 +86,7 @@ public class IconoProducto extends JPanel{
 						}
 					};
 					
-					Thread t = new Thread(run);
+					Thread t = new Thread(run); //Este hilo cambia el color de fondo 2 segundos para que se vea q lo has seleccionado
 			        
 			        if(panel.ventana.cuentas.get(idCuenta).getProductos().keySet().contains(seleccionado.getIdProducto())) {
 				        //Añadir uno
