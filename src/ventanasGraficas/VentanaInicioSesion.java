@@ -2,7 +2,7 @@ package ventanasGraficas;
 import javax.swing.*;
 
 import domain.Usuario;
-import persistence.GestorUsuariosBD;
+import persistence.GestorBD;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class VentanaInicioSesion extends JFrame {
 	private static final long serialVersionUID = 1L;
-	 private GestorUsuariosBD gestorUsuarios = new GestorUsuariosBD();
+	 private GestorBD gestorBD = new GestorBD();
 
 	public VentanaInicioSesion() {
 		// Configuración del JFrame
@@ -94,7 +94,7 @@ public class VentanaInicioSesion extends JFrame {
 	        	 usuario.setTelefono(Integer.parseInt(tlfField.getText()));
 	        	 usuario.setEmail(usuarioRegistroField.getText());
 	        	 usuario.setContrasena(new String(contraseñaRegistroField.getPassword()));
-	        	 boolean insertado= gestorUsuarios.insertarDatos(usuario);
+	        	 boolean insertado= gestorBD.insertarUsuario(usuario);
 					if (insertado) {
 						JOptionPane.showMessageDialog(null, "¡Usuario registrado correctamente!");
 						dispose();
@@ -118,7 +118,7 @@ public class VentanaInicioSesion extends JFrame {
 	        	 usuario.setContrasena(new String(contraseñaLogInField.getPassword()));
 	             usuarioLogInField.setText("");
 	             contraseñaLogInField.setText("");{
-	             if (gestorUsuarios.iniciarSesion(usuario)) {
+	             if (gestorBD.iniciarSesion(usuario)) {
 	            	 JOptionPane.showMessageDialog(null, "¡Bienvenido " + usuario.getEmail() + "!");
 	            	 dispose();
 	            	 new VentanaPrincipal().setVisible(true);
