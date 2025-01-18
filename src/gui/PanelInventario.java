@@ -1,4 +1,4 @@
-package ventanasGraficas;
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -8,19 +8,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
-
 import javax.swing.AbstractCellEditor;
-import javax.swing.CellEditor;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,7 +26,6 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.event.CellEditorListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
@@ -41,8 +34,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import db.GestorBD;
 import domain.Producto;
-import persistence.GestorBD;
 
 public class PanelInventario extends JPanel {
 	/**
@@ -184,7 +177,7 @@ public class PanelInventario extends JPanel {
 		
 		btnDetalles.addActionListener(e -> {
 			if(tabla.getSelectedRow() != -1) {
-				VentanaDetallesProducto ventanaDetalle = new VentanaDetallesProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)), ventana);
+				new VentanaDetallesProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)), ventana);
 				gestorDB.setConn();
 				gestorDB.actualizarProducto(ventana.productos.get((int) tabla.getModel().getValueAt(tabla.getSelectedRow(), 0)));
 				gestorDB.cerrarBD();
@@ -196,6 +189,8 @@ public class PanelInventario extends JPanel {
 	}
 	
 	private class ModeloTabla extends AbstractTableModel{
+		
+		private static final long serialVersionUID = -8299195042007500128L;
 		private HashMap<Integer, Producto> productos;
 		private String[] header = {"ID","NOMBRE", "PRECIO/UNIDAD", "TOTAL"};
 		
@@ -274,7 +269,8 @@ public class PanelInventario extends JPanel {
 	}
 	
 	private class SpinnerEditor extends AbstractCellEditor implements TableCellEditor {
-	    private final JSpinner spinner;
+		private static final long serialVersionUID = 222750894890163200L;
+		private final JSpinner spinner;
 
 	    public SpinnerEditor() {
 	        spinner = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1)); // Configuración del spinner

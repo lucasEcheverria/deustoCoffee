@@ -1,12 +1,9 @@
-package ventanasGraficas;
+package gui;
 import javax.swing.*;
-
+import db.GestorBD;
 import domain.Usuario;
-import persistence.GestorBD;
-
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class VentanaInicioSesion extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -32,9 +29,9 @@ public class VentanaInicioSesion extends JFrame {
         titulo2.setForeground(new Color(139, 69, 19));
 	    
 	    // Añadir imagen
-	    ImageIcon logo = new ImageIcon("img/logo.jpg");
+	    ImageIcon logo = new ImageIcon("resources/images/logo.jpg");
 	    JLabel label = new JLabel(logo);
-	    ImageIcon logo2 = new ImageIcon("img/logo.jpg");
+	    ImageIcon logo2 = new ImageIcon("resources/images/logo.jpg");
 	    JLabel label2 = new JLabel(logo2);
 	    
 	    // Panel de Registro

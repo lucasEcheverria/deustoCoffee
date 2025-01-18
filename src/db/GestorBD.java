@@ -1,4 +1,4 @@
-package persistence;
+package db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -19,7 +19,7 @@ public class GestorBD {
 	 * Esta clase gestionará las conexiones con la base de datos
 	 */
 	private static final String DRIVER_NAME = "org.sqlite.JDBC";
-    private static final String DATABASE_FILE = "db/productos.db";
+    private static final String DATABASE_FILE = "resources/db/productos.db";
     private static final String CONNECTION_STRING = "jdbc:sqlite:" + DATABASE_FILE;
     private Connection conn;
     

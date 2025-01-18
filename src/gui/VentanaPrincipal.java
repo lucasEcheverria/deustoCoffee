@@ -1,29 +1,24 @@
-package ventanasGraficas;
+package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import db.GestorBD;
 import domain.Cuenta;
 import domain.Producto;
-import persistence.GestorBD;
 
 public class VentanaPrincipal extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Esta es la ventan principal en la que tienen lugar la mayoría de las interacciones con el programa.
 	 * En esta se incorporan los distintos paneles como las distintas cuentas, el inventario o la ventana de 
@@ -151,7 +146,7 @@ public class VentanaPrincipal extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		VentanaPrincipal v = new VentanaPrincipal();
+		new VentanaPrincipal();
 	}
 	
 }

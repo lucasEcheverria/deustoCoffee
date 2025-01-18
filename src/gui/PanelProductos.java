@@ -1,23 +1,18 @@
-package ventanasGraficas;
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashMap;
-
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -42,10 +37,6 @@ public class PanelProductos extends JPanel  {
 	private DefaultTreeModel treeModel;
 	protected JComboBox<Integer> comboBox;
 	private JScrollPane scrollpane;
-	private JTable tabla;
-	private ModeloTabla modelo;
-	private RenderTabla render;
-	
 	public PanelProductos(VentanaPrincipal ventana) {
 		this.ventana = ventana;
 		setLayout(new BorderLayout());
@@ -170,7 +161,10 @@ public class PanelProductos extends JPanel  {
 	}
 	
 	
+	@SuppressWarnings("unused") //ChatGPT
 	private class ModeloTabla extends AbstractTableModel{
+		
+		private static final long serialVersionUID = 1L;
 		private HashMap<Integer, Producto> productos;
 		private String[] header = {"","","","","",""};
 
@@ -218,6 +212,7 @@ public class PanelProductos extends JPanel  {
 		
 	}
 	
+	@SuppressWarnings("unused") //ChatGPT
 	private class RenderTabla implements TableCellRenderer{
 
 		@Override
